@@ -1,0 +1,57 @@
+/* src/components/TodoList.css */
+.main {
+  width : 100vw;
+  height : 100vh;
+}
+
+.container {
+  width 80%;
+  height: 80%;
+  margin: auto auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.column {
+  flex: 1;
+  margin: 0 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  height: 80%;
+  border-radius: 5px;
+  background: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+}
+
+.column h2 {
+  background: #3f51b5;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px 5px 0 0;
+  margin: 0;
+  text-align: center;
+}
+
+.item-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: #fff;
+  cursor: pointer;
+  text-align: center;
+  color: #000;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.3s;
+  flex: 0 0 auto;
+}
+
+.item-button:hover {
+  background-color: #eaeaea;
+}
+
+.item-button:last-child {
+  border-bottom: none;
+}
