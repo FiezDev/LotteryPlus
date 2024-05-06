@@ -1,4 +1,4 @@
-import React, { useReducer, useRef } from 'react';
+import { useReducer, useRef } from 'react';
 import { Timers, TodoItem as TodoItemType, TodoState } from '../interfaces';
 import TodoItem from './TodoItem';
 import todoReducer from '../todoReducer';
@@ -24,7 +24,7 @@ const initialState: TodoState = {
   Vegetable: []
 };
 
-const TodoList: React.FC = () => {
+const TodoList = () => {
   const [state, dispatch] = useReducer(todoReducer, initialState);
   const timersRef = useRef<Timers>({}); 
 

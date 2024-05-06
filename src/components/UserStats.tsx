@@ -7,7 +7,7 @@ interface UserApiResponse {
   users: User[];
 }
 
-const UserStats: React.FC = () => {
+const UserStats = () => {
   const [stats, setStats] = useState<ReturnType<typeof processUserData> | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
