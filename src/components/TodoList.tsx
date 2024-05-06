@@ -1,5 +1,5 @@
-import React, { useReducer } from 'react';
-import { TodoItem as TodoItemType, TodoState } from '../interfaces';
+import React, { useReducer, useRef } from 'react';
+import { Timers, TodoItem as TodoItemType, TodoState } from '../interfaces';
 import TodoItem from './TodoItem';
 import todoReducer from '../todoReducer';
 import './TodoList.css';
@@ -26,12 +26,20 @@ const initialState: TodoState = {
 
 const TodoList: React.FC = () => {
   const [state, dispatch] = useReducer(todoReducer, initialState);
+  const timersRef = useRef<Timers>({}); 
 
   const handleMoveToColumn = (item: TodoItemType) => {
+    clearTimeout(timersRef.current[item.name]); 
     dispatch({ type: 'MOVE_TO_COLUMN', payload: item });
+
+ 
+    timersRef.current[item.name] = setTimeout(() => {
+      dispatch({ type: 'RESET_TO_MAIN', payload: item });
+    }, 5000);
   };
 
   const handleMoveToMain = (item: TodoItemType) => {
+    clearTimeout(timersRef.current[item.name]); 
     dispatch({ type: 'MOVE_TO_MAIN', payload: item });
   };
 
@@ -39,7 +47,6 @@ const TodoList: React.FC = () => {
     <div className="main">
     <div className="container">
       <div className="column">
-        <h2>Main List</h2>
         {state.list.map(item => (
           <TodoItem key={item.name} item={item} onAction={() => handleMoveToColumn(item)} />
         ))}

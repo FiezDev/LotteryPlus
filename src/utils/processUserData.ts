@@ -1,15 +1,14 @@
-// src/utils/processUserData.ts
 import { User, Departments } from '../interfaces';
 
 export const processUserData = (users: User[]): Departments => {
   const departments: Departments = {};
 
   users.forEach(user => {
-    const { department, gender, hairColor, firstName, lastName } = user;
-    const fullName = firstName + lastName;
+    const { company, gender, hair, firstName, lastName, address, age } = user;
+    const deptName = company.department;
 
-    if (!departments[department]) {
-      departments[department] = {
+    if (!departments[deptName]) {
+      departments[deptName] = {
         male: 0,
         female: 0,
         ageRange: 'N/A',
@@ -18,30 +17,26 @@ export const processUserData = (users: User[]): Departments => {
       };
     }
 
-    if (gender.toLowerCase() === 'male') {
-      departments[department].male += 1;
-    } else if (gender.toLowerCase() === 'female') {
-      departments[department].female += 1;
-    }
+    const deptData = departments[deptName];
 
-    const hair = hairColor || 'Unknown';
-    departments[department].hair[hair] = (departments[department].hair[hair] || 0) + 1;
+    deptData.male += gender.toLowerCase() === 'male' ? 1 : 0;
+    deptData.female += gender.toLowerCase() === 'female' ? 1 : 0;
 
-    departments[department].addressUser[fullName] = user.address?.postalCode || 'Unknown';
-  });
+    const hairColor = hair?.color || 'Unknown';
+    deptData.hair[hairColor] = (deptData.hair[hairColor] || 0) + 1;
 
-  // Calculate age ranges for each department
-  Object.keys(departments).forEach(dept => {
-    const ages = users
-      .filter(user => user.department === dept && typeof user.age === 'number')
-      .map(user => user.age as number); // Ensuring that undefined ages are not included
+    const fullName = `${firstName}${lastName}`;
+    deptData.addressUser[fullName] = address?.postalCode || 'Unknown';
 
-    if (ages.length > 0) {
-      const minAge = Math.min(...ages);
-      const maxAge = Math.max(...ages);
-      departments[dept].ageRange = `${minAge}-${maxAge}`;
-    } else {
-      departments[dept].ageRange = 'N/A';
+    if (typeof age === 'number') {
+      if (deptData.ageRange === 'N/A') {
+        deptData.ageRange = `${age} - ${age}`;
+      } else {
+        const [currentMin, currentMax] = deptData.ageRange.split(' - ').map(Number);
+        const newMin = Math.min(currentMin, age);
+        const newMax = Math.max(currentMax, age);
+        deptData.ageRange = `${newMin} - ${newMax}`;
+      }
     }
   });
 

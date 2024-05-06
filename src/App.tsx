@@ -1,5 +1,3 @@
-// App.tsx
-import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import TodoList from './components/TodoList';
 import UserStats from './components/UserStats';
